@@ -1,5 +1,5 @@
 {
-  "name": "yupi-antd-frontend-init",
+  "name": "shareswing-frontend-init",
   "version": "6.0.0",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
@@ -45,6 +45,7 @@
     "@ant-design/pro-components": "^2.3.57",
     "@ant-design/use-emotion-css": "1.0.4",
     "@babel/runtime": "^7.24.6",
+    "@umijs/renderer-react": "^4.3.0",
     "@umijs/route-utils": "^2.2.2",
     "antd": "^5.2.2",
     "classnames": "^2.3.2",

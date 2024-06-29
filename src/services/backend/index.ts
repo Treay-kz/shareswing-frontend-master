@@ -3,8 +3,12 @@
 // API 更新时间：
 // API 唯一标识：
 import * as articleController from './articleController';
+import * as fileController from './fileController';
+import * as tagController from './tagController';
 import * as userController from './userController';
 export default {
   articleController,
+  fileController,
+  tagController,
   userController,
 };

@@ -1,37 +1,37 @@
-import CreateModal from '@/pages/Admin/User/components/CreateModal';
-import UpdateModal from '@/pages/Admin/User/components/UpdateModal';
-import { deleteUserUsingPost, listUserByPageUsingPost } from '@/services/backend/userController';
-import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Space, Typography } from 'antd';
+import {Button, message, Space, Typography} from 'antd';
 import React, { useRef, useState } from 'react';
+import {deleteArticleUsingPost, listArticleByPageUsingPost} from "@/services/backend/articleController";
+import ArticleReviewModal from "@/pages/Admin/Audit/components/ArticleReviewModal";
+import CreateModal from "@/pages/Admin/Audit/components/ArticleCreateModal";
+import {PlusOutlined} from "@ant-design/icons";
 
 /**
  * 文章审核页面
  *
  * @constructor
  */
-const UserAdminPage: React.FC = () => {
-  // 是否显示新建窗口
+const ArticleAdminPage: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  // 是否显示更新窗口
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+
+  // 是否显示审核窗口
+  const [ArticleReviewModalVisible, setArticleReviewModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
+  const [currentRow, setCurrentRow] = useState<API.Article>();
 
   /**
    * 删除节点
    *
    * @param row
    */
-  const handleDelete = async (row: API.User) => {
+  const handleDelete = async (row: API.Article) => {
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {
-      await deleteUserUsingPost({
+      await deleteArticleUsingPost({
         id: row.id as any,
       });
       hide();
@@ -45,10 +45,11 @@ const UserAdminPage: React.FC = () => {
     }
   };
 
+
   /**
    * 表格列配置
    */
-  const columns: ProColumns<API.User>[] = [
+  const columns: ProColumns<API.Article>[] = [
     {
       title: 'id',
       dataIndex: 'id',
@@ -56,45 +57,41 @@ const UserAdminPage: React.FC = () => {
       hideInForm: true,
     },
     {
-      title: '账号',
-      dataIndex: 'userAccount',
+      title: '标题',
+      dataIndex: 'title',
       valueType: 'text',
     },
     {
-      title: '用户名',
-      dataIndex: 'userName',
-      valueType: 'text',
+      title: '内容',
+      dataIndex: 'content',
+      valueType: 'textarea',
+      render: (text) => <div style={{ width: '300px', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>{text}</div>
     },
     {
-      title: '头像',
-      dataIndex: 'userAvatar',
-      valueType: 'image',
-      fieldProps: {
-        width: 64,
-      },
+      title: '标签',
+      dataIndex: 'tags',
+      valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: '简介',
-      dataIndex: 'userProfile',
-      valueType: 'textarea',
-    },
-    {
-      title: '权限',
-      dataIndex: 'userRole',
-      valueEnum: {
-        user: {
-          text: '用户',
-        },
-        admin: {
-          text: '管理员',
-        },
-      },
-    },
-    {
-      title: '编号',
-      dataIndex: 'codingId',
+      title: '点赞数',
+      dataIndex: 'favourNum',
       valueType: 'text',
+      hideInForm: true,
+      hideInSearch: true,
+    },
+    {
+      title: '收藏数',
+      dataIndex: 'thumbNum',
+      valueType: 'text',
+      hideInForm: true,
+      hideInSearch: true,
+    },
+    {
+      title: '文章状态',
+      dataIndex: 'articleStatus',
+      valueType: 'text',
+      hideInForm: true,
     },
     {
       title: '创建时间',
@@ -121,10 +118,10 @@ const UserAdminPage: React.FC = () => {
           <Typography.Link
             onClick={() => {
               setCurrentRow(record);
-              setUpdateModalVisible(true);
+              setArticleReviewModalVisible(true);
             }}
           >
-            修改
+            审核
           </Typography.Link>
           <Typography.Link type="danger" onClick={() => handleDelete(record)}>
             删除
@@ -135,7 +132,7 @@ const UserAdminPage: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<API.User>
+      <ProTable<API.Article>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="key"
@@ -150,19 +147,19 @@ const UserAdminPage: React.FC = () => {
               setCreateModalVisible(true);
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined /> 发布文章
           </Button>,
         ]}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
 
-          const { data, code } = await listUserByPageUsingPost({
+          const { data, code } = await listArticleByPageUsingPost({
             ...params,
             sortField,
             sortOrder,
             ...filter,
-          } as API.UserQueryRequest);
+          } as API.ArticleQueryRequest);
 
           return {
             success: code === 0,
@@ -183,20 +180,21 @@ const UserAdminPage: React.FC = () => {
           setCreateModalVisible(false);
         }}
       />
-      <UpdateModal
-        visible={updateModalVisible}
+      <ArticleReviewModal
+        visible={ArticleReviewModalVisible}
         columns={columns}
         oldData={currentRow}
         onSubmit={() => {
-          setUpdateModalVisible(false);
+          setArticleReviewModalVisible(false);
           setCurrentRow(undefined);
           actionRef.current?.reload();
         }}
         onCancel={() => {
-          setUpdateModalVisible(false);
+          setArticleReviewModalVisible(false);
         }}
       />
+
     </PageContainer>
   );
 };
-export default UserAdminPage;
+export default ArticleAdminPage;

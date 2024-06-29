@@ -78,6 +78,8 @@ const UserAdminPage: React.FC = () => {
       title: '简介',
       dataIndex: 'userProfile',
       valueType: 'textarea',
+      hideInSearch: true,
+
     },
     {
       title: '权限',
@@ -90,11 +92,13 @@ const UserAdminPage: React.FC = () => {
           text: '管理员',
         },
       },
+      hideInSearch: true,
     },
     {
       title: '编号',
       dataIndex: 'codingId',
       valueType: 'text',
+      hideInSearch: true,
     },
     {
       title: '创建时间',

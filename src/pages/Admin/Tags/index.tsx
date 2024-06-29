@@ -1,37 +1,38 @@
-import CreateModal from '@/pages/Admin/User/components/CreateModal';
-import UpdateModal from '@/pages/Admin/User/components/UpdateModal';
-import { deleteUserUsingPost, listUserByPageUsingPost } from '@/services/backend/userController';
+import CreateModal from '@/pages/Admin/Tags/components/CreateModal';
+import UpdateModal from '@/pages/Admin/Tags/components/UpdateModal';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Space, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
+import {deleteTagUsingPost, listTagByPageUsingPost} from "@/services/backend/tagController";
+
 
 /**
  * 标签管理页面
  *
  * @constructor
  */
-const UserAdminPage: React.FC = () => {
+const TagAdminPage: React.FC = () => {
   // 是否显示新建窗口
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   // 是否显示更新窗口
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
+  const [currentRow, setCurrentRow] = useState<API.Tag>();
 
   /**
    * 删除节点
    *
    * @param row
    */
-  const handleDelete = async (row: API.User) => {
+  const handleDelete = async (row: API.Tag) => {
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {
-      await deleteUserUsingPost({
+      await deleteTagUsingPost({
         id: row.id as any,
       });
       hide();
@@ -45,10 +46,17 @@ const UserAdminPage: React.FC = () => {
     }
   };
 
+  // createTime?: string;
+  // id?: number;
+  // isDelete?: number;
+  // isParent?: number;
+  // parentId?: number;
+  // tagName?: string;
+  // updateTime?: string;
   /**
    * 表格列配置
    */
-  const columns: ProColumns<API.User>[] = [
+  const columns: ProColumns<API.Tag>[] = [
     {
       title: 'id',
       dataIndex: 'id',
@@ -56,44 +64,18 @@ const UserAdminPage: React.FC = () => {
       hideInForm: true,
     },
     {
-      title: '账号',
-      dataIndex: 'userAccount',
+      title: '标签名',
+      dataIndex: 'tagName',
       valueType: 'text',
     },
     {
-      title: '用户名',
-      dataIndex: 'userName',
+      title: '是否为父标签',
+      dataIndex: 'isParent',
       valueType: 'text',
     },
     {
-      title: '头像',
-      dataIndex: 'userAvatar',
-      valueType: 'image',
-      fieldProps: {
-        width: 64,
-      },
-      hideInSearch: true,
-    },
-    {
-      title: '简介',
-      dataIndex: 'userProfile',
-      valueType: 'textarea',
-    },
-    {
-      title: '权限',
-      dataIndex: 'userRole',
-      valueEnum: {
-        user: {
-          text: '用户',
-        },
-        admin: {
-          text: '管理员',
-        },
-      },
-    },
-    {
-      title: '编号',
-      dataIndex: 'codingId',
+      title: '父标签id',
+      dataIndex: 'parentId',
       valueType: 'text',
     },
     {
@@ -157,12 +139,12 @@ const UserAdminPage: React.FC = () => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
 
-          const { data, code } = await listUserByPageUsingPost({
+          const { data, code } = await listTagByPageUsingPost({
             ...params,
             sortField,
             sortOrder,
             ...filter,
-          } as API.UserQueryRequest);
+          } as API.TagQueryRequest);
 
           return {
             success: code === 0,
@@ -199,4 +181,4 @@ const UserAdminPage: React.FC = () => {
     </PageContainer>
   );
 };
-export default UserAdminPage;
+export default TagAdminPage;

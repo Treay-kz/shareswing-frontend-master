@@ -7,7 +7,20 @@ export default [
       { path: '/user/register', component: './User/Register' },
     ],
   },
-  { path: '/welcome', icon: 'smile', component: './Welcome', name: '欢迎页' },
+  { path: '/welcome', icon: 'home', component: './Welcome', name: '主页' },
+  {
+    path: '/user/article',
+    icon: 'read',
+    component: './User/Article',
+    name: '文章',
+    routes: [
+      { path: '/user/article/articleDetail/:articleId',
+        component: './User/Article/ArticleDetail',
+        layout: false,},
+    ]
+  },
+  { path: '/user/file', icon: 'folderOpen', component: './User/File', name: '文件' },
+  { path: '/user/userCenter', access: 'canUser', icon: 'user', component: './User/UserCenter', name: '个人中心' },
   {
     path: '/admin',
     icon: 'crown',
@@ -15,14 +28,15 @@ export default [
     access: 'canAdmin',
     routes: [
       { path: '/admin', redirect: '/admin/user' },
-      { icon: 'table', path: '/admin/user', component: './Admin/User', name: '用户管理' },
+      { icon: 'table', path: '/admin/user', component: './Admin/User' +
+          '', name: '用户管理' },
       {
         icon: 'table',
         path: '/admin/review',
         name: '审核管理',
         routes: [
-          { path: '/admin/review/article', component: './Admin/User', name: '文章审核' },
-          {  path: '/admin/review/file', component: './Admin/User', name: '文件审核' },
+          { path: '/admin/review/article', component: './Admin/Audit/Article', name: '文章审核' },
+          {  path: '/admin/review/file', component: './Admin/Audit/File', name: '文件审核' },
         ]
       },
       {  path: '/admin/tags', component: './Admin/Tags', name: '标签管理' },

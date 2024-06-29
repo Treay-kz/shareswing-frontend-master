@@ -1,37 +1,37 @@
-import CreateModal from '@/pages/Admin/User/components/CreateModal';
-import UpdateModal from '@/pages/Admin/User/components/UpdateModal';
-import { deleteUserUsingPost, listUserByPageUsingPost } from '@/services/backend/userController';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Space, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
+import {deleteFileUsingPost, listFileByPageUsingPost} from "@/services/backend/fileController";
+import FileReviewModal from '@/pages/Admin/Audit/components/FileReviewModal';
+import UploadModal from '@/pages/Admin/Audit/components/UploadModal';
 
 /**
  * 文章审核页面
  *
  * @constructor
  */
-const UserAdminPage: React.FC = () => {
-  // 是否显示新建窗口
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  // 是否显示更新窗口
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+const FileAdminPage: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
+
+  const [FileReviewModalVisible, setFileReviewModalVisible] = useState<boolean>(false);
+
   // 当前用户点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
+  const [currentRow, setCurrentRow] = useState<API.File>();
 
   /**
    * 删除节点
    *
    * @param row
    */
-  const handleDelete = async (row: API.User) => {
+  const handleDelete = async (row: API.File) => {
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {
-      await deleteUserUsingPost({
+      await deleteFileUsingPost({
         id: row.id as any,
       });
       hide();
@@ -48,7 +48,7 @@ const UserAdminPage: React.FC = () => {
   /**
    * 表格列配置
    */
-  const columns: ProColumns<API.User>[] = [
+  const columns: ProColumns<API.File>[] = [
     {
       title: 'id',
       dataIndex: 'id',
@@ -56,44 +56,34 @@ const UserAdminPage: React.FC = () => {
       hideInForm: true,
     },
     {
-      title: '账号',
-      dataIndex: 'userAccount',
+      title: '文件名',
+      dataIndex: 'fileName',
       valueType: 'text',
     },
     {
-      title: '用户名',
-      dataIndex: 'userName',
+      title: '文件类型',
+      dataIndex: 'fileType',
       valueType: 'text',
     },
     {
-      title: '头像',
-      dataIndex: 'userAvatar',
-      valueType: 'image',
-      fieldProps: {
-        width: 64,
-      },
+      title: '文件大小',
+      dataIndex: 'fileSize',
+      valueType: 'text',
+    },
+    {
+      title: '文件路径',
+      dataIndex: 'fileUrl',
+      valueType: 'text',
       hideInSearch: true,
     },
     {
-      title: '简介',
-      dataIndex: 'userProfile',
-      valueType: 'textarea',
+      title: '文件状态',
+      dataIndex: 'fileStatus',
+      valueType: 'text',
     },
     {
-      title: '权限',
-      dataIndex: 'userRole',
-      valueEnum: {
-        user: {
-          text: '用户',
-        },
-        admin: {
-          text: '管理员',
-        },
-      },
-    },
-    {
-      title: '编号',
-      dataIndex: 'codingId',
+      title: '上传人',
+      dataIndex: 'userId',
       valueType: 'text',
     },
     {
@@ -121,10 +111,10 @@ const UserAdminPage: React.FC = () => {
           <Typography.Link
             onClick={() => {
               setCurrentRow(record);
-              setUpdateModalVisible(true);
+              setFileReviewModalVisible(true);
             }}
           >
-            修改
+            审核
           </Typography.Link>
           <Typography.Link type="danger" onClick={() => handleDelete(record)}>
             删除
@@ -150,19 +140,19 @@ const UserAdminPage: React.FC = () => {
               setCreateModalVisible(true);
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined /> 上传
           </Button>,
         ]}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
 
-          const { data, code } = await listUserByPageUsingPost({
+          const { data, code } = await listFileByPageUsingPost({
             ...params,
             sortField,
             sortOrder,
             ...filter,
-          } as API.UserQueryRequest);
+          } as API.FileQueryRequest);
 
           return {
             success: code === 0,
@@ -172,7 +162,7 @@ const UserAdminPage: React.FC = () => {
         }}
         columns={columns}
       />
-      <CreateModal
+      <UploadModal
         visible={createModalVisible}
         columns={columns}
         onSubmit={() => {
@@ -183,20 +173,20 @@ const UserAdminPage: React.FC = () => {
           setCreateModalVisible(false);
         }}
       />
-      <UpdateModal
-        visible={updateModalVisible}
+      <FileReviewModal
+        visible={FileReviewModalVisible}
         columns={columns}
         oldData={currentRow}
         onSubmit={() => {
-          setUpdateModalVisible(false);
+          setFileReviewModalVisible(false);
           setCurrentRow(undefined);
           actionRef.current?.reload();
         }}
         onCancel={() => {
-          setUpdateModalVisible(false);
+          setFileReviewModalVisible(false);
         }}
       />
     </PageContainer>
   );
 };
-export default UserAdminPage;
+export default FileAdminPage;

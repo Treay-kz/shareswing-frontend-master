@@ -127,8 +127,9 @@ const Welcome: React.FC = () => {
               width: '65%',
             }}
           >
-            Share Swing 是一个整合了 umi，Share Swing和 ProComponents
-            的脚手架方案。致力于在设计规范和基础组件的基础上，继续向上构建，提炼出典型模板/业务组件/配套设计资源，进一步提升企业级中后台产品设计研发过程中的『用户』和『设计者』的体验。
+            ShareSwing 是一个专为学习者打造的卓越学习资源分享平台。
+            本平台致力于弘扬创新、合作、共享的互联网精神，在这里，您可以轻松获取精心整理的学习笔记、权威的研究报告、实用的学习工具以及丰富的学习资源等。
+            无论您是在为考试备战，还是在为个人兴趣拓展知识领域，ShareSwing 都将成为您学习之旅中不可或缺的得力伙伴，助力您在知识的海洋中乘风破浪，不断前行。
           </p>
           <div
             style={{
@@ -140,20 +141,20 @@ const Welcome: React.FC = () => {
             <InfoCard
               index={1}
               href="https://umijs.org/docs/introduce/introduce"
-              title="了解 umi"
-              desc="umi 是一个可扩展的企业级前端应用框架,umi 以路由为基础的，同时支持配置式路由和约定式路由，保证路由的功能完备，并以此进行功能扩展。"
+              title="创新"
+              desc="敢于突破常规，勇于探索未知领域，以新颖独特的思维方式和方法解决问题。创新精神驱使人们不断挑战既有观念，突破传统束缚，开发出前所未有的产品、服务和解决方案。"
             />
             <InfoCard
               index={2}
-              title="了解 ant design"
+              title="合作"
               href="https://ant.design"
-              desc="antd 是基于 Share Swing设计体系的 React UI 组件库，主要用于研发企业级中后台产品。"
+              desc="相互协作、相互支持，合作精神促使不同个体发挥各自的优势，实现资源的整合与优化配置。通过有效的沟通、协调和信任，合作能够汇聚各方力量，形成强大的合力，攻克难题，创造出超越个体能力的价值。"
             />
             <InfoCard
               index={3}
-              title="了解 Pro Components"
+              title="共享"
               href="https://procomponents.ant.design"
-              desc="ProComponents 是一个基于 Share Swing做了更高抽象的模板组件，以 一个组件就是一个页面为开发理念，为中后台开发带来更好的体验。"
+              desc="促进信息流通和知识的普及，减少重复劳动和资源浪费。通过共享，人们能够站在他人的肩膀上，加速自身的成长和发展，同时也为社会的公平和共同进步创造了条件。"
             />
           </div>
         </div>

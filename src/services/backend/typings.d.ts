@@ -78,9 +78,9 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseLoginUserVO_ = {
+  type BaseResponseFileVO_ = {
     code?: number;
-    data?: LoginUserVO;
+    data?: FileVO;
     message?: string;
   };
 
@@ -96,9 +96,45 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponsePageArticleVO_ = {
+    code?: number;
+    data?: PageArticleVO_;
+    message?: string;
+  };
+
+  type BaseResponsePageFile_ = {
+    code?: number;
+    data?: PageFile_;
+    message?: string;
+  };
+
+  type BaseResponsePageFileVO_ = {
+    code?: number;
+    data?: PageFileVO_;
+    message?: string;
+  };
+
+  type BaseResponsePageTag_ = {
+    code?: number;
+    data?: PageTag_;
+    message?: string;
+  };
+
   type BaseResponsePageUser_ = {
     code?: number;
     data?: PageUser_;
+    message?: string;
+  };
+
+  type BaseResponseString_ = {
+    code?: number;
+    data?: string;
+    message?: string;
+  };
+
+  type BaseResponseTag_ = {
+    code?: number;
+    data?: Tag;
     message?: string;
   };
 
@@ -118,7 +154,54 @@ declare namespace API {
     id?: number;
   };
 
+  type downUsingGETParams = {
+    /** fileUUID */
+    fileUUID: string;
+  };
+
+  type File = {
+    createTime?: string;
+    fileName?: string;
+    fileSize?: number;
+    fileStatus?: number;
+    fileType?: string;
+    fileUrl?: string;
+    id?: number;
+    isDelete?: number;
+    md5?: string;
+    updateTime?: string;
+    userId?: number;
+  };
+
+  type FileQueryRequest = {
+    createTime?: string;
+    current?: number;
+    fileName?: string;
+    fileSize?: number;
+    fileStatus?: number;
+    fileType?: string;
+    fileUrl?: string;
+    id?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    updateTime?: string;
+    userId?: number;
+  };
+
+  type FileVO = {
+    fileName?: string;
+    id?: number;
+    user?: UserVO;
+    userId?: number;
+  };
+
   type getArticleVOByIdUsingGETParams = {
+    /** id */
+    id: number;
+  };
+
+  type getFileVOByIdUsingGETParams = {
     /** id */
     id?: number;
   };
@@ -131,16 +214,6 @@ declare namespace API {
   type getUserVOByIdUsingGETParams = {
     /** id */
     id?: number;
-  };
-
-  type LoginUserVO = {
-    createTime?: string;
-    id?: number;
-    updateTime?: string;
-    userAvatar?: string;
-    userName?: string;
-    userProfile?: string;
-    userRole?: string;
   };
 
   type OrderItem = {
@@ -161,6 +234,58 @@ declare namespace API {
     total?: number;
   };
 
+  type PageArticleVO_ = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: ArticleVO[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
+  };
+
+  type PageFile_ = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: File[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
+  };
+
+  type PageFileVO_ = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: FileVO[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
+  };
+
+  type PageTag_ = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: Tag[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
+  };
+
   type PageUser_ = {
     countId?: string;
     current?: number;
@@ -172,6 +297,34 @@ declare namespace API {
     searchCount?: boolean;
     size?: number;
     total?: number;
+  };
+
+  type searchTagUsingPOSTParams = {
+    /** id */
+    id?: number;
+  };
+
+  type Tag = {
+    createTime?: string;
+    id?: number;
+    isDelete?: number;
+    isParent?: number;
+    parentId?: number;
+    tagName?: string;
+    updateTime?: string;
+  };
+
+  type TagQueryRequest = {
+    createTime?: string;
+    current?: number;
+    id?: number;
+    isParent?: number;
+    pageSize?: number;
+    parentId?: number;
+    sortField?: string;
+    sortOrder?: string;
+    tagName?: string;
+    updateTime?: string;
   };
 
   type User = {
@@ -191,9 +344,11 @@ declare namespace API {
   };
 
   type UserAddRequest = {
+    codingId?: string;
     userAccount?: string;
     userAvatar?: string;
     userName?: string;
+    userProfile?: string;
     userRole?: string;
   };
 
@@ -240,10 +395,13 @@ declare namespace API {
   };
 
   type UserUpdateRequest = {
-    content?: string;
+    email?: string;
     id?: number;
-    tags?: string[];
-    title?: string;
+    phone?: string;
+    userAvatar?: string;
+    userName?: string;
+    userProfile?: string;
+    userRole?: string;
   };
 
   type UserVO = {
