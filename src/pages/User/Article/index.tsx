@@ -84,9 +84,9 @@ const ArticlePage: React.FC = () => {
   };
 
   // 处理点击标题或内容跳转的函数
-  const handleArticleClick = (articleId: any) => {
+  const handleArticleClick = (id: any) => {
     // window.location.href = `/user/article/articleDetail/${articleId}`;
-    history.push(`/user/article/articleDetail/${articleId}`);
+    history.push(`/user/article/articleDetail/${id}`);
     return;
   }
 

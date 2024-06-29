@@ -191,6 +191,7 @@ declare namespace API {
 
   type FileVO = {
     fileName?: string;
+    fileUrl?: string;
     id?: number;
     user?: UserVO;
     userId?: number;

@@ -1,9 +1,8 @@
-import { updateTagUsingPost } from '@/services/backend/tagController';
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { message, Modal } from 'antd';
 import React from 'react';
-import {reviewFileUsingPost1} from "@/services/backend/fileController";
+import {reviewFileUsingPost} from "@/services/backend/fileController";
 
 interface Props {
   oldData?: API.Article;
@@ -21,7 +20,7 @@ interface Props {
 const handleUpdate = async (fields: API.ArticleReviewRequest) => {
   const hide = message.loading('正在更新');
   try {
-    await reviewFileUsingPost1(fields);
+    await reviewFileUsingPost(fields);
     hide();
     message.success('更新成功');
     return true;

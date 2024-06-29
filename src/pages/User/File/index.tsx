@@ -6,6 +6,7 @@ import UploadModal from '@/pages/Admin/Audit/components/UploadModal';
 import { listFileVoByPageUsingPost} from "@/services/backend/fileController";
 import { Button } from 'antd';
 import {PlusOutlined} from "@ant-design/icons";
+import {history} from "@@/core/history";
 
 /**
  * 文章审核页面
@@ -29,18 +30,17 @@ const FilePage: React.FC = () => {
     fetchFiles();
   }, []);
 
+  const handleFileClick = (fileUrl: string) => {
+    // window.location.href = `/user/article/articleDetail/${articleId}`;
+    window.open(fileUrl);
+    return;
+  }
   const renderFileCards = (files: API.File[]) => {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'epeat(4, 1fr)', gridGap: '16px' }}>
         {files.map((file, index) => (
           <ProCard key={index} style={{ marginBottom: 16 }} bordered>
-            <div><strong>文件名：</strong>{file.fileName}</div>
-            <div><strong>文件类型：</strong>{file.fileType}</div>
-            <div><strong>文件大小：</strong>{file.fileSize}</div>
-            <div><strong>文件状态：</strong>{file.fileStatus}</div>
-            <div><strong>上传人：</strong>{file.userId}</div>
-            <div><strong>创建时间：</strong>{file.createTime}</div>
-            <div><strong>更新时间：</strong>{file.updateTime}</div>
+            <div onClick={() => handleFileClick(file.fileUrl)}><strong>文件名：</strong>{file.fileName}</div>
           </ProCard>
         ))}
       </div>

@@ -14,9 +14,10 @@ export default [
     component: './User/Article',
     name: '文章',
     routes: [
-      { path: '/user/article/articleDetail/:articleId',
+      { path: '/user/article/articleDetail/:id',
         component: './User/Article/ArticleDetail',
-        layout: false,},
+        layout: false,
+      name:'文章详情'},
     ]
   },
   { path: '/user/file', icon: 'folderOpen', component: './User/File', name: '文件' },
